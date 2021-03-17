@@ -44,12 +44,8 @@ function App() {
                 let simData =[];
                 let obj ={};
                 setProducts(data);
-                for(let i=0; i<Object.keys(data).length; i++) {
-                   let key = Object.keys(data)[i];
-                   simData.push(key.split("MOB-")[1])
-                   obj[key]= data[key][0].monthly_cost
-                   setSingleSimPriceForData(obj);
-                }
+                Object.keys(data).map(key => getKeys(key,data,simData,obj))
+                setSingleSimPriceForData(obj);
                 setSelectedDataPlan("MOB-"+simData[0])
                 setData(simData);
                 setProductCard(data["MOB-"+simData[0]][0])
@@ -59,6 +55,11 @@ function App() {
                  console.log(error);
          });
     }, []);
+
+    let getKeys = (key,data,simData,obj) => {
+       simData.push(key.split("MOB-")[1])
+       obj[key]= data[key][0].monthly_cost
+    }
 
     return (
         <div className="container">
