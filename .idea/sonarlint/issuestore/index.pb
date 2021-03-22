@@ -30,3 +30,25 @@ B
 src/ProductCard.js,3\2\323795bdf725990d5fdf6884eb17c2db2f0b389b
 ?
 public/main.css,1\8\1813654d08f963c85dd1f92d0ee3321b03c4e1c4
+D
+public/products.json,a\3\a35a1ceab3555c7d2c8653eb640a4c442c9b2817
+H
+src/reducers/products.js,c\b\cbcb4f072a6ecc96bb86257571617baa2cae154a
+P
+ src/reducers/selectedDataPlan.js,f\1\f1cd698a096224f06b47a15e688895940f2cd8dc
+K
+src/reducers/selectedSim.js,7\0\705ef9e60276b9f78a88b6c4cc4cd6242a01d190
+U
+%src/reducers/singleSimPriceForData.js,6\1\6163d15b71b3fe3b4e40cc6c6e8193fdb339b1bc
+J
+src/reducers/mobileData.js,6\b\6b4ce2533b89a757046015c24e2e8776d7960038
+D
+src/actions/index.js,b\2\b2d59a07d13f17ca9ce2adf48e5ce01516e0485e
+R
+"src/reducers/activeIndexForData.js,c\9\c9cdc85fce62db07d3c0f12bade0080b20669fbe
+Q
+!src/reducers/activeIndexForSim.js,5\f\5fc5da762f43b595d1fa9c0d6d14810baa71a20d
+R
+"src/reducers/productCardDetails.js,d\6\d6f913a5ae7d9f59fc91206ad54e1cbd243bc713
+E
+src/reducers/index.js,f\a\fab243bdaf4b374258978630635708f4d73997cb

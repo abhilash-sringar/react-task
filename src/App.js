@@ -1,23 +1,28 @@
 import React, {
     useState,useEffect
 } from 'react';
+import {useSelector, useDispatch} from 'react-redux';
+import {setProducts,setMobileData,setSelectedDataPlan
+,setProductCard,setSingleSimPriceForData,
+setActiveIndexForData,setActiveIndexForSim,setSelectedSim} from './actions'
 import MultiSwitch from "./MultiSwitch";
 import Countdown from "react-countdown";
 import ProductCard from "./ProductCard";
 
 function App() {
-    const[sims]=useState(["1","2","3","4","5"])
+    const sims = ["1","2","3","4","5"]
     const title = "How Many Sims Do You Need???"
     const description =  "Each extra SIM has a 20% discount"
     const subTitle =  "How Much Data Would You Like Per Sim???"
-    const[data,setData]=useState([])
-    const[products,setProducts]=useState(null)
-    const[selectedSim,setSelectedSim] = useState("1")
-    const[singleSimPriceForData, setSingleSimPriceForData] = useState(null);
-    const[selectedDataPlan,setSelectedDataPlan] = useState("")
-    const[productCardDetails, setProductCard] =  useState(null);
-    const[activeIndexForSim,setActiveIndexForSim] = useState(0);
-    const[activeIndexForData,setActiveIndexForData] = useState(0);
+    const dispatch =  useDispatch();
+    const productCardDetails = useSelector(state => state.productCardDetails);
+    const activeSimIndex= useSelector(state => state.activeIndexForSim);
+    const activeDataIndex= useSelector(state => state.activeIndexForData);
+    const data = useSelector(state => state.data);
+    const singleSimPrice = useSelector(state => state.singleSimPriceForData);
+    const selectedDataPlan = useSelector(state => state.selectedDataPlan);
+    const selectedSim = useSelector(state => state.selectedSim);
+    const products = useSelector(state => state.products);
 
 
     let handleClick = (value, id) => {
@@ -25,16 +30,18 @@ function App() {
        let dataPlanSelected;
        if(value.includes("GB")) {
          dataPlanSelected = value.includes("MOB-") ? value : "MOB-"+value
-         setSelectedDataPlan(dataPlanSelected)
+         dispatch(setSelectedDataPlan(dataPlanSelected))
          simSelected = selectedSim;
-         setActiveIndexForData(id);
+         dispatch(setActiveIndexForData(id))
+
        }else {
-         setSelectedSim(value)
+         dispatch(setSelectedSim(value))
          dataPlanSelected = selectedDataPlan;
          simSelected = value;
-         setActiveIndexForSim(id);
+         dispatch(setActiveIndexForSim(id))
        }
-       setProductCard(products[dataPlanSelected][simSelected - 1])
+       dispatch(setProductCard(products[dataPlanSelected][simSelected - 1]))
+
 
     }
     useEffect(() => {
@@ -43,12 +50,12 @@ function App() {
                 let data = response.data
                 let simData =[];
                 let obj ={};
-                setProducts(data);
                 Object.keys(data).map(key => getKeys(key,data,simData,obj))
-                setSingleSimPriceForData(obj);
-                setSelectedDataPlan("MOB-"+simData[0])
-                setData(simData);
-                setProductCard(data["MOB-"+simData[0]][0])
+                dispatch(setProducts(data))
+                dispatch(setMobileData(simData))
+                dispatch(setSingleSimPriceForData(obj))
+                dispatch(setSelectedDataPlan("MOB-"+simData[0]))
+                dispatch(setProductCard(data["MOB-"+simData[0]][0]))
 
           })
              .catch(function (error) {
@@ -61,11 +68,13 @@ function App() {
        obj[key]= data[key][0].monthly_cost
     }
 
+
+
     return (
         <div className="container">
-            <MultiSwitch activeIndex ={activeIndexForSim} title={title} description={description} data={sims} handleClick={handleClick}/>
-            <MultiSwitch activeIndex ={activeIndexForData} title={subTitle}  data={data} handleClick={handleClick}/>
-            {productCardDetails ? <ProductCard planDetails={productCardDetails} singleSimPrice ={singleSimPriceForData} selectedDataPlan={selectedDataPlan} selectedSim={selectedSim}></ProductCard> : null}
+            <MultiSwitch activeIndex ={activeSimIndex} title={title} description={description} data={sims} handleClick={handleClick}/>
+            <MultiSwitch activeIndex ={activeDataIndex} title={subTitle}  data={data} handleClick={handleClick}/>
+            {productCardDetails ? <ProductCard planDetails={productCardDetails} singleSimPrice ={singleSimPrice} selectedDataPlan={selectedDataPlan} selectedSim={selectedSim}></ProductCard> : null}
         </div>
     );
 }
